@@ -83,27 +83,40 @@
     <!-- END nav -->
 
     <section
-      class="hero-wrap hero-wrap-2 js-fullheight"
-      style="background-image: url('images/bg_2.jpg')"
+      class="hero-wrap js-fullheight"
+      style="background-image: url('images/bg_2.jpg'); position: relative"
       data-stellar-background-ratio="0.5"
     >
       <div class="overlay"></div>
       <div class="container">
         <div
-          class="row no-gutters slider-text js-fullheight align-items-end justify-content-center"
+          class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+          data-scrollax-parent="true"
         >
-          <div class="col-md-9 ftco-animate pb-5 text-center">
-            <h1 class="mb-3 bread">Contact Us</h1>
-            <p class="breadcrumbs">
-              <span class="mr-2"
-                ><a href="./index.html"
-                  >Home <i class="ion-ios-arrow-forward"></i></a
-              ></span>
-              <span>Contact <i class="ion-ios-arrow-forward"></i></span>
-            </p>
+          <div
+            class="col-md-9 text text-center ftco-animate"
+            data-scrollax=" properties: { translateY: '70%' }"
+          >
+            <h1
+              class="font-weight-bolder"
+              data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"
+            >
+              Contact Us
+            </h1>
           </div>
         </div>
       </div>
+      <img
+        src="images/logo-nobg-sq.png"
+        alt=""
+        style="
+          position: absolute;
+          bottom: 6px;
+          left: 50%;
+          transform: translateX(-50%);
+        "
+        width="150"
+      />
     </section>
 
     <section
