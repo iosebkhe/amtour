@@ -120,10 +120,10 @@
 
     <section class="ftco-section bg-light">
       <div class="container">
-        <div class="row d-flex">
+        <div class="row d-flex ftco-animate" id="tours-details-wrapper">
           <div class="col-md-6">
             <div class="row">
-              <div class="col-12 ftco-animate">
+              <div class="col-12">
                 <img
                   src="./images/destination-6.jpg"
                   alt="tour detail image"
@@ -132,7 +132,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6 heading-section pl-md-5 ftco-animate">
+          <div class="col-md-6 heading-section pl-md-5">
             <h3 class="mb-4 font-weight-bold">Tour Details</h3>
             <ul>
               <li>Flight Tickets (round-trip)</li>
@@ -267,6 +267,66 @@
         />
       </svg>
     </div>
+
+    <script>
+      async function fetchProducts() {
+        try {
+          // Replace with your API endpoint
+          const response = await fetch("http://localhost:3000/api/products");
+          const tours = await response.json();
+          return tours;
+        } catch (error) {
+          console.error("Error fetching tours:", error);
+        }
+      }
+
+      const populateProductDetails = async function () {
+        const selectedProductID = localStorage.getItem("selectedTourId");
+        const productDetailsContainer = document.querySelector(
+          "#tours-details-wrapper"
+        );
+        try {
+          const data = await fetchProducts();
+          const selectedProduct = data.find(
+            (product) => product._id === selectedProductID
+          );
+          if (selectedProduct) {
+            const pageTitle = document.querySelector("h1");
+            pageTitle.textContent = selectedProduct.title;
+            productDetailsContainer.innerHTML = `<div class="col-md-6">
+            <div class="row">
+              <div class="col-12">
+                <img
+                  src=${selectedProduct.cardImage}
+                  alt="tour detail image"
+                  style="width: 100%"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 heading-section pl-md-5">
+            <h3 class="mb-4 font-weight-bold">Tour Details</h3>
+           <div>
+          ${selectedProduct.fullDescription}
+            </div>
+            <p class="tour-details__contact">
+              <span class="icon icon-phone"></span>
+              <a href="tel:+995599042704">+995 599 042 704</a>
+            </p>
+            <p class="tour-details__contact">
+              <span class="icon icon-mail_outline"></span>
+              <a href="mailto:Lika.s.makharadze@gmail.com"
+                >Lika.s.makharadze@gmail.com</a
+              >
+            </p>
+          </div>`;
+          }
+        } catch (error) {
+          console.error(error.message);
+        }
+      };
+      populateProductDetails();
+    </script>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-migrate-3.0.1.min.js"></script>

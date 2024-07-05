@@ -195,27 +195,11 @@
             <h2 class="mb-4">Tour Destinations</h2>
           </div>
         </div>
-        <div class="row justify-content-center align-items-center">
-          <div class="col-md-4 ftco-animate">
-            <div class="project-wrap shadow">
-              <a
-                href="#"
-                class="img"
-                style="background-image: url(images/destination-6.jpg)"
-              ></a>
-              <div class="text p-4">
-                <span class="price">2999 ₾</span>
-                <span class="days">6 Days Tour</span>
-                <h3><a href="#">Classic Explore Georgia</a></h3>
-                <p class="location">
-                  <span class="ion-ios-map"></span> Various cities in Georgia
-                </p>
-                <p class="d-flex align-items-center justify-content-center">
-                  <a href="./tour-details.html" class="see-all">Full Details</a>
-                </p>
-              </div>
-            </div>
-          </div>
+        <div
+          class="row justify-content-center align-items-center ftco-animate"
+          id="tours-wrapper"
+        >
+          <!-- TOUR DESTINATIONS GOES HERE -->
         </div>
       </div>
     </section>
@@ -322,6 +306,69 @@
         />
       </svg>
     </div>
+
+    <script>
+      async function fetchProducts() {
+        try {
+          // Replace with your API endpoint
+          const response = await fetch("http://localhost:3000/api/products");
+          const tours = await response.json();
+          return tours;
+        } catch (error) {
+          console.error("Error fetching tours:", error);
+        }
+      }
+
+      const renderTourListHTML = function (tours) {
+        return tours.map((tour) => {
+          return `<div class="col-md-4">
+                  <div class="project-wrap shadow">
+                    <a
+                      data-id=${tour._id}
+                      class="img"
+                      style="background-image: url(${tour.cardImage})"
+                    ></a>
+                    <div class="text p-4">
+                      <span class="price">${tour.price} ₾</span>
+                      <span class="days">6 Days Tour</span>
+                      <h3><a href="#" data-id=${tour._id}>${tour.title}</a></h3>
+                      <p class="location">
+                        <span class="ion-ios-map"></span> Various cities in Georgia
+                      </p>
+                      <p class="d-flex align-items-center justify-content-center">
+                        <a href="#" data-id=${tour._id} class="see-all">Full Details</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>`;
+        });
+      };
+
+      const linkEventListeners = function (renderContainer, products) {
+        const linkItems = Array.from(
+          renderContainer.querySelectorAll("[data-id]")
+        );
+        products.map((product) => {
+          linkItems.forEach((linkItem) => {
+            linkItem.addEventListener("click", function () {
+              const linkDataID = linkItem.dataset.id;
+              if (linkDataID === product._id) {
+                localStorage.setItem("selectedTourId", product._id);
+              }
+              window.location.href = "tour-details.html";
+            });
+          });
+        });
+      };
+
+      const populateToursList = async function () {
+        const toursWrapper = document.querySelector("#tours-wrapper");
+        const tours = await fetchProducts();
+        toursWrapper.innerHTML = renderTourListHTML(tours);
+        linkEventListeners(toursWrapper, tours);
+      };
+      populateToursList();
+    </script>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-migrate-3.0.1.min.js"></script>
