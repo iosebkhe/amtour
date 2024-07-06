@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
+    <link rel="icon" type="image/png" href="./images/favicon.ico" />
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900"
       rel="stylesheet"
@@ -311,7 +311,9 @@
       async function fetchProducts() {
         try {
           // Replace with your API endpoint
-          const response = await fetch("http://localhost:3000/api/products");
+          const response = await fetch(
+            "https://amtour-admin.vercel.app/api/products"
+          );
           const tours = await response.json();
           return tours;
         } catch (error) {
@@ -324,19 +326,24 @@
           return `<div class="col-md-4">
                   <div class="project-wrap shadow">
                     <a
+                      href="#"
                       data-id=${tour._id}
                       class="img"
                       style="background-image: url(${tour.cardImage})"
                     ></a>
                     <div class="text p-4">
                       <span class="price">${tour.price} ₾</span>
-                      <span class="days">6 Days Tour</span>
+                      <span class="days">${tour.tourLength} Days Tour</span>
                       <h3><a href="#" data-id=${tour._id}>${tour.title}</a></h3>
                       <p class="location">
-                        <span class="ion-ios-map"></span> Various cities in Georgia
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#571014" viewBox="0 0 256 256"><path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"></path></svg> ${tour.categories.map(
+                         (cat) => `<span>${cat.name}</span>`
+                       )}
                       </p>
                       <p class="d-flex align-items-center justify-content-center">
-                        <a href="#" data-id=${tour._id} class="see-all">Full Details</a>
+                        <a href="#" data-id=${
+                          tour._id
+                        } class="see-all">Full Details</a>
                       </p>
                     </div>
                   </div>
